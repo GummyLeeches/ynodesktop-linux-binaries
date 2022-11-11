@@ -1,0 +1,15 @@
+{
+  "name": "ynodesktop",
+  "version": "1.0.0",
+  "description": "A Yume Nikki Online desktop client with Discord Rich Presence",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "electron": "^21.2.3"
+  }
+}
