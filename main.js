@@ -23,10 +23,11 @@ const mappedIcons = [
 
 const createWindow = () => {
   const win = new BrowserWindow({
-    width: 1600,
-    height: 950,
+    width: 1080,
+    height: 800,
     title: "Yume Nikki Online Project",
     icon: "logo.png",
+    resizable: false,
   });
   var loopInterval = null;
   win.setMenu(null);
