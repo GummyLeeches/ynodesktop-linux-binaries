@@ -35,6 +35,10 @@ const createWindow = () => {
 
   win.on("close", () => {
     saveSession();
+    client.clearActivity();
+    clearInterval(loopInterval);
+    client.destroy();
+    win.destroy();
   });
 
   // Inject the custom prompt hack on page load
@@ -125,9 +129,5 @@ function saveSession() {
     .then((cookies) => {
       const sess = cookies.find((cookie) => cookie.name == "sessionId");
       if (sess) store.set("sessionId", sess.value);
-      client.clearActivity();
-      clearInterval(loopInterval);
-      client.destroy();
-      win.destroy();
     });
 }
