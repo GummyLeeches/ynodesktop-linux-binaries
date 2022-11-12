@@ -1,7 +1,9 @@
-const { app, BrowserWindow, session } = require("electron");
+const { app, BrowserWindow, session, ipcMain } = require("electron");
 const DiscordRPC = require("discord-rpc");
 const Store = require("electron-store");
 const promptInjection = require("./promptinjection");
+const titlebar = require("./titlebar");
+const path = require('path')
 
 const store = new Store();
 
@@ -23,11 +25,16 @@ const mappedIcons = [
 
 const createWindow = () => {
   const win = new BrowserWindow({
-    width: 1080,
-    height: 800,
+    width: 1052,
+    height: 768,
     title: "Yume Nikki Online Project",
     icon: "logo.png",
     resizable: false,
+    frame: true,
+    titleBarStyle: 'hidden',
+    webPreferences: {
+      preload: path.join(__dirname, 'preload.js'),
+    },
   });
   var loopInterval = null;
   win.setMenu(null);
@@ -48,10 +55,14 @@ const createWindow = () => {
       window.scrollTo(0, 0)}`) // Disable scroll ingame
   });
 
+  win.webContents.on("did-start-loading", () => {
+    titlebar(win); // Custom titlebar hack
+  });
+
   win.loadURL("https://ynoproject.net/").then(() => {
     loopInterval = setInterval(() => {
       clientLoop(win);
-      win.webContents.openDevTools();
+      //win.webContents.openDevTools();
     }, 1000);
   });
 };
@@ -66,6 +77,9 @@ app.whenReady().then(() => {
       sameSite: "strict",
     });
   }
+  ipcMain.on('minimize', () => {
+    BrowserWindow.getFocusedWindow().minimize();
+  });
   createWindow();
 });
 
