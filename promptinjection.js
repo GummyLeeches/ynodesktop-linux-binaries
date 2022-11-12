@@ -3,72 +3,72 @@
 
 module.exports = function (win) {
   win.webContents.executeJavaScript(`
-          var poll = setInterval(function() {
-            if (document.querySelector("#downloadButton")?.onclick) {
-              clearInterval(poll);
-              console.log('exec')
-              var originalDownloadClick = document.querySelector("#downloadButton").onclick;
-              document.querySelector("#downloadButton").onclick = function () {
-                var script = document.createElement("script");
-                script.onload = function () {
-                  Swal.fire({
-                    title: "Save slot?",
-                    icon: "question",
-                    input: "range",
-                    inputLabel: "Slot number",
-                    inputAttributes: {
-                      min: 1,
-                      max: 15,
-                      step: 1,
-                    },
-                    inputValue: 1,
-                  }).then((result) => {
-                    window.prompt = function () {
-                      return result.value;
-                    };
-                    originalDownloadClick();
-                  });
-                };
-                script.src = "//cdn.jsdelivr.net/npm/sweetalert2@11";
-                script.id = "sweetalert2";
-                if (!document.querySelector("#sweetalert2")) {
-                  document.head.appendChild(script);
-                } else {
-                  script.onload();
-                }
+    var poll = setInterval(function() {
+      if (document.querySelector("#downloadButton")?.onclick) {
+        clearInterval(poll);
+        console.log('exec')
+        var originalDownloadClick = document.querySelector("#downloadButton").onclick;
+        document.querySelector("#downloadButton").onclick = function () {
+          var script = document.createElement("script");
+          script.onload = function () {
+            Swal.fire({
+              title: "Save slot?",
+              icon: "question",
+              input: "range",
+              inputLabel: "Slot number",
+              inputAttributes: {
+                min: 1,
+                max: 15,
+                step: 1,
+              },
+              inputValue: 1,
+            }).then((result) => {
+              window.prompt = function () {
+                return result.value;
               };
-    
-              var originalUploadClick = document.querySelector("#uploadButton").onclick;
-              document.querySelector("#uploadButton").onclick = function () {
-                var script = document.createElement("script");
-                script.onload = function () {
-                  Swal.fire({
-                    title: "Save slot?",
-                    icon: "question",
-                    input: "range",
-                    inputLabel: "Slot number",
-                    inputAttributes: {
-                      min: 1,
-                      max: 15,
-                      step: 1,
-                    },
-                    inputValue: 1,
-                  }).then((result) => {
-                    window.prompt = function () {
-                      return result.value;
-                    };
-                    originalUploadClick();
-                  });
-                };
-                script.src = "//cdn.jsdelivr.net/npm/sweetalert2@11";
-                script.id = "sweetalert2";
-                if (!document.querySelector("#sweetalert2")) {
-                  document.head.appendChild(script);
-                } else {
-                  script.onload();
-                }
+              originalDownloadClick();
+            });
+          };
+          script.src = "//cdn.jsdelivr.net/npm/sweetalert2@11";
+          script.id = "sweetalert2";
+          if (!document.querySelector("#sweetalert2")) {
+            document.head.appendChild(script);
+          } else {
+            script.onload();
+          }
+        };
+
+        var originalUploadClick = document.querySelector("#uploadButton").onclick;
+        document.querySelector("#uploadButton").onclick = function () {
+          var script = document.createElement("script");
+          script.onload = function () {
+            Swal.fire({
+              title: "Save slot?",
+              icon: "question",
+              input: "range",
+              inputLabel: "Slot number",
+              inputAttributes: {
+                min: 1,
+                max: 15,
+                step: 1,
+              },
+              inputValue: 1,
+            }).then((result) => {
+              window.prompt = function () {
+                return result.value;
               };
-            }
-          }, 200);
-    `);
+              originalUploadClick();
+            });
+          };
+          script.src = "//cdn.jsdelivr.net/npm/sweetalert2@11";
+          script.id = "sweetalert2";
+          if (!document.querySelector("#sweetalert2")) {
+            document.head.appendChild(script);
+          } else {
+            script.onload();
+          }
+        };
+      }
+    }, 200);
+  `);
 };
