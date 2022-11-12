@@ -3,7 +3,7 @@ const DiscordRPC = require("discord-rpc");
 const Store = require("electron-store");
 const promptInjection = require("./promptinjection");
 const titlebar = require("./titlebar");
-const path = require('path')
+const path = require("path");
 
 const store = new Store();
 
@@ -26,14 +26,14 @@ const mappedIcons = [
 const createWindow = () => {
   const win = new BrowserWindow({
     width: 1052,
-    height: 768,
+    height: 768 + 30, // 30px for titlebar
     title: "Yume Nikki Online Project",
     icon: "logo.png",
     resizable: false,
     frame: true,
-    titleBarStyle: 'hidden',
+    titleBarStyle: "hidden",
     webPreferences: {
-      preload: path.join(__dirname, 'preload.js'),
+      preload: path.join(__dirname, "preload.js"),
     },
   });
   var loopInterval = null;
@@ -50,9 +50,10 @@ const createWindow = () => {
 
   win.webContents.on("did-finish-load", () => {
     promptInjection(win); // Custom prompt hack
-    win.webContents.executeJavaScript(`if (document.title != "Yume Nikki Online Project") {
+    win.webContents
+      .executeJavaScript(`if (document.title != "Yume Nikki Online Project") {
       document.getElementById('content').style.overflow = 'hidden'
-      window.scrollTo(0, 0)}`) // Disable scroll ingame
+      document.querySelector('#content')?.scrollTo(0,0)}`); // Disable scroll ingame
   });
 
   win.webContents.on("did-start-loading", () => {
@@ -77,7 +78,7 @@ app.whenReady().then(() => {
       sameSite: "strict",
     });
   }
-  ipcMain.on('minimize', () => {
+  ipcMain.on("minimize", () => {
     BrowserWindow.getFocusedWindow().minimize();
   });
   createWindow();

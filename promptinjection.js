@@ -10,7 +10,6 @@ module.exports = function (win) {
       }
       if (document.querySelector("#downloadButton")?.onclick) {
         clearInterval(poll);
-        console.log('exec')
         var originalDownloadClick = document.querySelector("#downloadButton").onclick;
         document.querySelector("#downloadButton").onclick = function () {
           var script = document.createElement("script");

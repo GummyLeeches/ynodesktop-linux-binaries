@@ -1,6 +1,5 @@
 module.exports = function (win) {
     win.webContents.executeJavaScript(`
-
     document.body.insertAdjacentHTML('afterBegin', \`
 
     <div id="ynod-titlebar">
@@ -63,6 +62,20 @@ module.exports = function (win) {
     </style>
 
     \`)
+    `);
 
+    win.webContents.executeJavaScript(`
+        function updateTitle() {
+            document.querySelector('#content')?.scrollTo(0,0)
+            if (document.title != "YNOproject" && document.title.includes("YNOproject")) {
+                if (document.querySelector('div.notice.version')) {
+                    document.getElementById("ynod-titlebar-title").innerHTML = document.querySelector('div.notice.version').innerText;
+                } else {
+                    document.getElementById("ynod-titlebar-title").innerHTML = document.title.split(" - ")[0];
+                }
+            }
+        }
+        updateTitle();
+        setInterval(updateTitle, 1000);
     `);
 }
