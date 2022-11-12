@@ -41,15 +41,17 @@ const createWindow = () => {
     win.destroy();
   });
 
-  // Inject the custom prompt hack on page load
   win.webContents.on("did-finish-load", () => {
-    promptInjection(win);
+    promptInjection(win); // Custom prompt hack
+    win.webContents.executeJavaScript(`if (document.title != "Yume Nikki Online Project") {
+      document.getElementById('content').style.overflow = 'hidden'
+      window.scrollTo(0, 0)}`) // Disable scroll ingame
   });
 
   win.loadURL("https://ynoproject.net/").then(() => {
     loopInterval = setInterval(() => {
       clientLoop(win);
-      //win.webContents.openDevTools();
+      win.webContents.openDevTools();
     }, 1000);
   });
 };
