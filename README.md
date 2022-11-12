@@ -10,10 +10,7 @@ Created as a simple Electron wrapper around the website, with discord-rpc and so
 
 ## Download
 The releases are currently Windows-only.  
-There are three formats available:  
-[Installer](https://github.com/joaovitorbf/ynodesktop/releases/latest/download/YNOdesktop.Setup.1.0.0.exe)  
-[Portable](https://github.com/joaovitorbf/ynodesktop/releases/latest/download/YNOdesktop.1.0.0.exe)  
-[ZIP](https://github.com/joaovitorbf/ynodesktop/releases/latest/download/YNOdesktop-1.0.0-win.zip)  
+[Click here to go to the download page for the latest release.](https://github.com/joaovitorbf/ynodesktop/releases/latest)
 
 ## [YNOproject](https://github.com/ynoproject)
 Click on the heading to check out the Yume Nikki Online Project!
