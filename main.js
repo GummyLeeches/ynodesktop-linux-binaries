@@ -34,7 +34,7 @@ const createWindow = () => {
   win.setTitle("Yume Nikki Online Project");
 
   win.on("close", () => {
-    saveGame();
+    saveSession();
   });
 
   // Inject the custom prompt hack on page load
@@ -119,7 +119,7 @@ function updatePresence(web, gamename = null) {
   }
 }
 
-function saveGame() {
+function saveSession() {
   session.defaultSession.cookies
     .get({ url: "https://ynoproject.net" })
     .then((cookies) => {
