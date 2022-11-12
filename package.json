@@ -15,9 +15,20 @@
     "electron-builder": "^23.6.0"
   },
   "build": {
-    "appId": "your.id",
-    "mac": {
-      "category": "your.app.category.type"
+    "appId": "com.joaovitorbf.ynodesktop",
+    "productName": "YNOdesktop",
+    "win":{
+      "target": [
+        "portable",
+        "zip",
+        "nsis"
+      ]
+    },
+    "icon": "logo.ico",
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "installerIcon": "logo.ico"
     }
   },
   "dependencies": {
