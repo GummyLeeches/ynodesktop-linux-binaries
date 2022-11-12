@@ -4,6 +4,10 @@
 module.exports = function (win) {
   win.webContents.executeJavaScript(`
     var poll = setInterval(function() {
+      if (document.title === "Yume Nikki Online Project") {
+        clearInterval(poll);
+        return;
+      }
       if (document.querySelector("#downloadButton")?.onclick) {
         clearInterval(poll);
         console.log('exec')
