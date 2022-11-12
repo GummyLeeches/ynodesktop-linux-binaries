@@ -5,11 +5,24 @@
   "main": "main.js",
   "scripts": {
     "start": "electron .",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "pack": "electron-builder --dir",
+    "dist": "electron-builder"
   },
-  "author": "",
-  "license": "ISC",
+  "author": "joaovitorbf",
+  "license": "MIT",
   "devDependencies": {
-    "electron": "^21.2.3"
+    "electron": "^21.2.3",
+    "electron-builder": "^23.6.0"
+  },
+  "build": {
+    "appId": "your.id",
+    "mac": {
+      "category": "your.app.category.type"
+    }
+  },
+  "dependencies": {
+    "discord-rpc": "^4.0.1",
+    "electron-squirrel-startup": "^1.0.0",
+    "electron-store": "^8.1.0"
   }
 }
