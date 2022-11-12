@@ -1,4 +1,5 @@
-const { app, BrowserWindow, session, ipcMain } = require("electron");
+const { app, BrowserWindow, session, ipcMain, dialog } = require("electron");
+const contextMenu = require("electron-context-menu");
 const DiscordRPC = require("discord-rpc");
 const Store = require("electron-store");
 const promptInjection = require("./promptinjection");
@@ -6,6 +7,62 @@ const titlebar = require("./titlebar");
 const path = require("path");
 
 const store = new Store();
+contextMenu({
+  showSelectAll: false,
+  showSearchWithGoogle: false,
+  showInspectElement: false,
+
+  append: (defaultActions, params, browserWindow) => [
+    {
+      label: "Force Reload",
+      click: () => {
+        browserWindow.webContents.reloadIgnoringCache();
+      },
+    },
+    {
+      label: "Clear IndexedDB",
+      click: () => {
+        dialog
+          .showMessageBox({
+            type: "question",
+            buttons: ["Yes", "No"],
+            title: "Clear IndexedDB",
+            message:
+              "Are you sure you want to clear IndexedDB? This should only be used if something is broken as it will delete your local save file.\nThis will also clear the cache and Local Storage.",
+          })
+          .then((result) => {
+            if (result.response == 0) {
+              dialog
+                .showMessageBox({
+                  type: "warning",
+                  buttons: ["Yes", "No"],
+                  title: "Clear IndexedDB",
+                  message:
+                    "ATTENTION: THIS WILL DELETE YOUR LOCAL SAVE FILE.\nAre you sure you want to continue?",
+                })
+                .then((result) => {
+                  if (result.response == 0) {
+                    session.defaultSession
+                      .clearStorageData({
+                        storages: ["indexdb", "cache", "localstorage"],
+                      })
+                      .then(() => {
+                        browserWindow.webContents.reloadIgnoringCache();
+                      });
+                  }
+                });
+            }
+          });
+      },
+    },
+    {
+      label: "Open Developer Tools",
+      click: () => {
+        browserWindow.webContents.openDevTools();
+      },
+    },
+  ],
+});
 
 const client = new DiscordRPC.Client({ transport: "ipc" });
 client.login({ clientId: "1028080411772977212" }).catch(console.error);

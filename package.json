@@ -17,7 +17,7 @@
   "build": {
     "appId": "com.joaovitorbf.ynodesktop",
     "productName": "YNOdesktop",
-    "win":{
+    "win": {
       "target": [
         "portable",
         "zip",
@@ -33,6 +33,7 @@
   },
   "dependencies": {
     "discord-rpc": "^4.0.1",
+    "electron-context-menu": "^3.6.0",
     "electron-squirrel-startup": "^1.0.0",
     "electron-store": "^8.1.0"
   }
