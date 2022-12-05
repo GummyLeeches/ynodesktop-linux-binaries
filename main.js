@@ -78,6 +78,7 @@ const mappedIcons = [
   "yno-logo",
   "yume2kki",
   "yumenikki",
+  "mumarope"
 ];
 
 const createWindow = () => {
