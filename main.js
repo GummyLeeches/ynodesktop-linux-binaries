@@ -78,7 +78,15 @@ const mappedIcons = [
   "yno-logo",
   "yume2kki",
   "yumenikki",
-  "mumarope"
+  "mumarope",
+  "genie",
+  "mikan",
+  "2kki",
+  "yume",
+  "prayers",
+  "muma",
+  "dreamgenie",
+  "mikanmuzou"
 ];
 
 const createWindow = () => {
@@ -147,7 +155,11 @@ function clientLoop(win) {
   web.executeJavaScript(`document.title`).then((title) => {
     let splitTitle = title.split(" - ");
     if (splitTitle[1]?.trim() == "YNOproject") {
-      updatePresence(web, splitTitle[0].trim());
+      if (splitTitle[0].trim() == "ゆめ2っき") {
+        updatePresence(web, 'Yume 2kki');
+      } else {
+        updatePresence(web, splitTitle[0].trim());
+      }
     } else {
       updatePresence(web);
     }
