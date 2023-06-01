@@ -95,7 +95,7 @@ const createWindow = () => {
     height: 768 + 30, // 30px for titlebar
     title: "Yume Nikki Online Project",
     icon: "logo.png",
-    resizable: false,
+    resizable: true,
     frame: true,
     titleBarStyle: "hidden",
     webPreferences: {
@@ -106,7 +106,7 @@ const createWindow = () => {
   win.setMenu(null);
   win.setTitle("Yume Nikki Online Project");
 
-  win.on("close", () => {
+  win.on("closed", () => {
     saveSession();
     client.clearActivity();
     clearInterval(loopInterval);
@@ -129,23 +129,36 @@ const createWindow = () => {
   win.loadURL("https://ynoproject.net/").then(() => {
     loopInterval = setInterval(() => {
       clientLoop(win);
-      //win.webContents.openDevTools();
+      // win.webContents.openDevTools();
     }, 1000);
   });
 };
 
+var isMax = false;
+
 app.whenReady().then(() => {
   // Load login session from disk
-  if (store.get("sessionId")) {
+  if (store.has("ynoproject_sessionId")) {
     session.defaultSession.cookies.set({
       url: "https://ynoproject.net",
-      name: "sessionId",
-      value: store.get("sessionId"),
+      name: "ynoproject_sessionId",
+      value: store.get("ynoproject_sessionId"),
       sameSite: "strict",
     });
   }
   ipcMain.on("minimize", () => {
     BrowserWindow.getFocusedWindow().minimize();
+  });
+  ipcMain.on("maximize", () => {
+    if (isMax)
+    {
+      BrowserWindow.getFocusedWindow().unmaximize();
+    }
+    else
+    {
+      BrowserWindow.getFocusedWindow().maximize();
+    }
+    isMax = !isMax;
   });
   createWindow();
 });
@@ -166,6 +179,10 @@ function clientLoop(win) {
   });
 }
 
+function isConnected(text) {
+  return text === "Connected" || text === "接続済み" || text === "已连接" || text === "연결됨" || text === "Conectado" || text === "Connecté(e)" || text === "Verbunden" || text === "Connesso" || text === "В сети" || text === "Đã kết nối" || text === "متصل";
+}
+
 function updatePresence(web, gamename = null) {
   if (!client) return;
   web.executeJavaScript("window.onbeforeunload=null;");
@@ -182,15 +199,33 @@ function updatePresence(web, gamename = null) {
       .executeJavaScript(
         `
         (function() {
+          querys = document.querySelector("#locationText")?.querySelectorAll("a");
+
+          currentLocation = "Loc: ";
+
+          if (querys == "undefined" || querys.length < 1)
+          {
+            currentLocation = "Unknown";
+          }
+          else
+          {
+            for (i = 0; i < querys.length; i++)
+            {
+              isPowerOfTwo = (i % 2) == 0;
+              currentLocation += (!isPowerOfTwo ? "(" : "") + querys.item(i).textContent + (!isPowerOfTwo ? ")" + (i + 1 == querys.length ? "" : " |") : "") + " ";
+            }
+          }
+
           return {
             name: window.location.pathname.replaceAll('/', ''),
-            location: document.querySelector("#locationText > a")?.textContent,
+            currentLocation,
             connected: document.querySelector("#connStatusText")?.textContent
           }
         })()
       `
       )
       .then((data) => {
+        console.log(data.connected);
         const condensedName = gamename
           .toLowerCase()
           .replace(" ", "")
@@ -203,7 +238,7 @@ function updatePresence(web, gamename = null) {
           smallImageKey: "yno-logo",
           smallImageText: "Yume Nikki Online Project",
           details: "Dreaming on " + gamename,
-          state: data.connected === "Connected" ? data.location : undefined,
+          state: isConnected(data.connected) ? data.currentLocation : "Disconnected",
           instance: false,
         });
       });
@@ -214,7 +249,8 @@ function saveSession() {
   session.defaultSession.cookies
     .get({ url: "https://ynoproject.net" })
     .then((cookies) => {
-      const sess = cookies.find((cookie) => cookie.name == "sessionId");
-      if (sess) store.set("sessionId", sess.value);
+      const sess = cookies.find((cookie) => cookie.name == "ynoproject_sessionId");
+      if (sess)
+        store.set("ynoproject_sessionId", sess.value);
     });
 }

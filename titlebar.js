@@ -12,6 +12,12 @@ module.exports = function (win) {
                     <path fill-rule="evenodd" d="M2 8a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11A.5.5 0 0 1 2 8Z"/>
                 </svg>
             </div>
+            <div id="ynod-titlebar-maximize" class="ynod-titlebar-button" onclick="window.electronAPI.maximize()">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="rgba(194, 146, 200, 1)" class="bi bi-dash-square" viewBox="0 0 16 16">
+                    <path d="M3 3.5a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0Zm1.5 0a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0Zm1 .5a.5.5 0 1 0 0-1 .5.5 0 0 0 0 1Z"/>
+                    <path d="M.5 1a.5.5 0 0 0-.5.5v13a.5.5 0 0 0 .5.5h15a.5.5 0 0 0 .5-.5v-13a.5.5 0 0 0-.5-.5H.5ZM1 5V2h14v3H1Zm0 1h14v8H1V6Z"/>
+                </svg>
+            </div>
             <div id="ynod-titlebar-close" class="ynod-titlebar-button" onclick="window.close()">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="rgba(194, 146, 200, 1)" class="bi bi-x-lg" viewBox="0 0 16 16">
                     <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z"/>
