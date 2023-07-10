@@ -225,7 +225,6 @@ function updatePresence(web, gamename = null) {
       `
       )
       .then((data) => {
-        console.log(data.connected);
         const condensedName = gamename
           .toLowerCase()
           .replace(" ", "")
